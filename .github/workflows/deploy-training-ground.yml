@@ -24,7 +24,7 @@ jobs:
             echo "deploy=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Deploy to Vercel (repo root; vercel.json runs build in training-ground)
+      - name: Deploy to Vercel (project Root Directory must be training-ground)
         if: steps.meta.outputs.deploy == 'true'
         uses: amondnet/vercel-action@v25
         with:
