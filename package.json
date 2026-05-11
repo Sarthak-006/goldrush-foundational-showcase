@@ -1,0 +1,14 @@
+{
+  "name": "goldrush-ai-cup",
+  "private": true,
+  "description": "npm workspace root — Next.js app is the training-ground workspace. Vercel runs npm ci here so next is hoisted and framework detection passes.",
+  "workspaces": ["training-ground"],
+  "scripts": {
+    "build": "npm run build -w training-ground",
+    "dev": "npm run dev -w training-ground",
+    "verify": "npm run verify -w training-ground"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
