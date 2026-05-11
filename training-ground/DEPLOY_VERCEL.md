@@ -1,22 +1,22 @@
 # Deploy Training Ground to Vercel
 
-The repo uses an **npm workspace**: the Next.js app is the **`training-ground`** package. The **root** `package-lock.json` installs dependencies and **hoists `next` to `node_modules/next`**, which satisfies Vercel’s “Next.js version detected” check when **Root Directory = `./`** (repository root).
+The repo uses an **npm workspace**: the Next.js app is the **`training-ground`** package. The **root** `package-lock.json` installs dependencies and **hoists `next` to `node_modules/next`**.
 
-## Root Directory
+## Root Directory (pick one)
 
-Use **repository root** (`./` / default). Do **not** point Vercel only at `training-ground` unless you also copy a lockfile there — the supported layout is **workspace root + `vercel.json`**.
+| Vercel Root Directory | Config file | Install | Build |
+|----------------------|-------------|---------|-------|
+| **`training-ground`** (recommended) | `training-ground/vercel.json` | `cd .. && npm ci` | `npm run build` |
+| **Repository root** (`./`) | root `vercel.json` | `npm ci` | `npm run build -w training-ground` then copy `.next` to repo root |
 
-## What Vercel runs (from root `vercel.json`)
+If the build compiles but deploy fails with **“.next was not found at `/vercel/path0/.next`”**, the app root and output folder do not match — use **`training-ground`** as Root Directory, or keep repo root and use the root `vercel.json` copy step.
 
-| Step | Command |
-|------|---------|
-| Install | `npm ci` |
-| Build | `npm run build -w training-ground` |
+Enable **Include source files outside of the Root Directory** when Root Directory is `training-ground`.
 
 ## Option A — GitHub import
 
 1. Import this repo on **latest `main`** (includes root `package-lock.json` and workspace `package.json`).
-2. **Root Directory:** `./` (default).
+2. **Root Directory:** `training-ground` (recommended) or `./` with root `vercel.json`.
 3. **Environment variables:** `GOLDRUSH_API_KEY` or `COVALENT_API_KEY` (Production + Preview as needed).
 4. Optional after first deploy: `NEXT_PUBLIC_SITE_URL` = your `https://….vercel.app` URL.
 5. Deploy.
@@ -25,7 +25,8 @@ Use **repository root** (`./` / default). Do **not** point Vercel only at `train
 
 | Issue | Fix |
 |-------|-----|
-| “No Next.js version detected” | Use **latest `main`**; ensure **Root Directory is repo root**; root `npm ci` must run (see `vercel.json`). Do not delete root `package-lock.json`. |
+| “No Next.js version detected” | Use **latest `main`**; install from repo root (`npm ci` or `cd .. && npm ci`); do not delete root `package-lock.json`. |
+| “.next was not found at `/vercel/path0/.next`” | Set Root Directory to **`training-ground`**, or use repo root with the root `vercel.json` copy step. |
 | 503 on `/api/matchday` | Set `GOLDRUSH_API_KEY` (or `COVALENT_API_KEY`) in Vercel env; redeploy. |
 | Wrong OG URL | Set `NEXT_PUBLIC_SITE_URL` to the live production URL. |
 

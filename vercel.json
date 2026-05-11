@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "npm ci",
-  "buildCommand": "npm run build -w training-ground",
+  "buildCommand": "npm run build -w training-ground && cp -r training-ground/.next .next",
   "regions": ["iad1"]
 }
